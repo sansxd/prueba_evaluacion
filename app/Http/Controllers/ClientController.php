@@ -14,7 +14,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return "desde controller";
+        return Client::all();
     }
 
     /**
@@ -25,7 +25,10 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+        ]);
+       return Client::create($request->all());
     }
 
     /**
@@ -36,7 +39,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        return Client::findOrFail($id);
     }
 
     /**
@@ -48,7 +51,10 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //buscando id por cliente
+        $client=Client::find($id);
+        $client->update($request->all());
+        return $client;
     }
 
     /**
@@ -59,6 +65,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Client::destroy($id);
     }
 }

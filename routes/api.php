@@ -19,5 +19,7 @@ use App\Http\Controllers\ClientController;
 //     return $request->user();
 // });
 
-Route::get('/cliente', [ClientController::class, 'index']);
+// Route::get('/client', [ClientController::class, 'index']);
+Route::apiResource('client', ClientController::class);
+
 
