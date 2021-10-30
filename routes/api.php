@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,15 @@ use App\Http\Controllers\ClientController;
 // });
 
 // Route::get('/client', [ClientController::class, 'index']);
-Route::apiResource('client', ClientController::class);
+// Route::middleware('auth:sanctum')->group(function(){
+//     Route::apiResource('client', ClientController::class);
 
+// });
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/logout',[AuthController::class,'logout']);
+});
+
+Route::post('/register',[AuthController::class,'register']);
+
+Route::apiResource('client', ClientController::class);
 

@@ -7,6 +7,10 @@ use App\Models\Client;
 
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->only(['store','update','destroy']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,9 +30,13 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required',
+            'name'=>'required|unique:App\Models\Client,name',
         ]);
-       return Client::create($request->all());
+        $client = new Client;
+        $client->name = $request->name;
+        $client->save();
+
+       return $client;
     }
 
     /**
@@ -52,8 +60,9 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
         //buscando id por cliente
-        $client=Client::find($id);
-        $client->update($request->all());
+        $client = Client::find($id);
+        $client->name = $request->name;
+        $client->save();
         return $client;
     }
 
@@ -65,6 +74,16 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        return Client::destroy($id);
+        $client = Client::find($id);
+        if ($client != null) {
+            $client->delete();
+            return response()->json([
+            'message' => 'delete success',
+            'client' => $client
+            ]);
+        }
+        return response()->json([
+            'message' => 'id no found',
+        ]);
     }
 }
