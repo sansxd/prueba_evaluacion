@@ -21,14 +21,12 @@ class AuthController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
-        // $user->createToken('myapptoken')->plainTextToken;
         $user->save();
 
         $token = $user->createToken('Token_client')->plainTextToken;
 
         // return response($response,201);
         return response()->json([
-            'user' => $user,
             'access_token' => $token,
             'token_type' => 'Bearer',
         ],201);
@@ -37,7 +35,7 @@ class AuthController extends Controller
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
         return response()->json([
-            'message' => 'Logged out'
+            'message' => 'Tokens Revoked'
         ]);
     }
 }
