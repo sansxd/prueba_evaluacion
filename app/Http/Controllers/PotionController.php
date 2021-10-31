@@ -22,11 +22,13 @@ class PotionController extends Controller
         $data = PotionResource::collection(Potion::all());
         return $data;
     }
+    //funcion que permite crear relaciones entre pocion y los ingredientes
+    //la ruta es POST : api/potion/add/{id}
     public function add(Request $request,$id)
     {
         $request->validate([
             'ingredient_id'=>'required|integer|numeric',
-            'amount'=>'required|integer',
+            'amount'=>'required|numeric',
         ]);
         $amount = $request->amount;
         $ingredient_id = $request->ingredient_id;
