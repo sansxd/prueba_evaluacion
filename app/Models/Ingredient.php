@@ -11,6 +11,6 @@ class Ingredient extends Model
 
     public function potions()
     {
-        return $this->belongsToMany(Potion::class,'ingredient_potion');
+        return $this->belongsToMany(Potion::class,'ingredient_potion')->withTimestamps();
     }
 }

@@ -88,4 +88,17 @@ class IngredientController extends Controller
             'message' => 'id no found',
         ]);
     }
+    public function search(Request $request)
+    {
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+
+        $ingredientByDate = Ingredient::query()
+            ->whereDate('created_at', '>=', $startDate)
+            ->whereDate('created_at', '<=', $endDate)
+            ->get();
+        //creados despues de una fecha dada
+        // $ingredient = Ingredient::where('created_at','>',$created_at)->get();
+        return $ingredientByDate;
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Potion;
+use App\Http\Resources\PotionResource;
 
 class PotionController extends Controller
 {
@@ -18,8 +19,26 @@ class PotionController extends Controller
      */
     public function index()
     {
-        $potions = Potion::all();
-        return $potions;
+        $data = PotionResource::collection(Potion::all());
+        return $data;
+    }
+    public function add(Request $request,$id)
+    {
+        $request->validate([
+            'ingredient_id'=>'required|integer|numeric',
+            'amount'=>'required|integer',
+        ]);
+        $amount = $request->amount;
+        $ingredient_id = $request->ingredient_id;
+        
+        $potion = Potion::find($id);
+        $potion->ingredients()->attach($ingredient_id,['amount' => $amount]);
+        
+        $data = new PotionResource($potion);
+        return response()->json([
+            'message' => 'relationship added',
+            'potion' => $data
+        ]);
     }
     /**
      * Store a newly created resource in storage.
@@ -48,7 +67,10 @@ class PotionController extends Controller
      */
     public function show($id)
     {
-        return Potion::findOrFail($id);
+        $potion = Potion::with('ingredients')->findOrFail($id);
+        $data = new PotionResource(Potion::findOrFail($id));
+        return $data;
+
     }
 
     /**
