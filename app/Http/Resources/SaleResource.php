@@ -3,10 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\IngredientResource;
+use App\Http\Resources\SaleDetailResource;
+use App\Http\Resources\ClientResource;
 
-
-class PotionResource extends JsonResource
+class SaleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,11 +18,11 @@ class PotionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'total' => $this->total,
+            'client' => new ClientResource($this->client),
+            'potions' =>PotionResource::collection($this->potions),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'ingredients' => IngredientResource::collection($this->whenLoaded('ingredients')),
-            // 'ingredients' => IngredientResource::collection($this->ingredients),
         ];
     }
 }

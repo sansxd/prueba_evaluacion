@@ -15,7 +15,7 @@ class CreateSaleDetailsTable extends Migration
     {
         Schema::create('sale_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sale_id')->constrained()->onDelete('cascade');
             $table->foreignId('potion_id')->constrained()->onDelete('cascade');
             $table->integer('amount');
             $table->integer('sub_total');

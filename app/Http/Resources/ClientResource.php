@@ -3,10 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\IngredientResource;
 
-
-class PotionResource extends JsonResource
+class ClientResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,10 +17,6 @@ class PotionResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'ingredients' => IngredientResource::collection($this->whenLoaded('ingredients')),
-            // 'ingredients' => IngredientResource::collection($this->ingredients),
         ];
     }
 }

@@ -17,9 +17,8 @@ class CreateIngredientPotionTable extends Migration
             $table->id();
             $table->foreignId('ingredient_id')->constrained()->onDelete('cascade');
             $table->foreignId('potion_id')->constrained()->onDelete('cascade');
-            $table->integer('amount');
+            $table->float('amount', 8, 2);
             $table->timestamps();
-
         });
     }
 
